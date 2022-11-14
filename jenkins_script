@@ -1,0 +1,11 @@
+$line = Get-Content -Path .\sequence.txt
+ForEach ($file in $line) {
+Write-Host "#############################  Executing $file #########################"
+Type $file
+SQLCMD -b -j -o querry.log -S XCALWS0160LT\SQL_SER_PRAVIN -U ppatil -P Pravin8 -i $file
+Get-Content -Path .\querry.log
+ if (Get-Content -Path .\querry.log | select-string "Msg"){
+        exit 1
+    }
+ write-Host "############################  End SQL FIle #############################"
+}
